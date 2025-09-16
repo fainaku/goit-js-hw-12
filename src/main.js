@@ -42,7 +42,7 @@ async function onSubmit(event) {
   try {
     const images = await getImagesByQuery(inputQuery, page, perPage);
 
-    if (images.length === 0) {
+    if (images.hits.length === 0) {
       iziToast.error({
         title: '',
         message:
