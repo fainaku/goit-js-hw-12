@@ -18,6 +18,7 @@ loadBtnEl.addEventListener('click', onClick);
 let page = 1;
 let perPage = 15;
 let inputQuery = null;
+let totalPages = 0;
 
 async function onSubmit(event) {
   event.preventDefault();
@@ -42,17 +43,24 @@ async function onSubmit(event) {
   try {
     const images = await getImagesByQuery(inputQuery, page, perPage);
 
+    totalPages = Math.ceil(images.totalHits / perPage);
+
     if (images.hits.length === 0) {
       iziToast.error({
         title: '',
         message:
           'Sorry, there are no images matching your search query. Please try again!',
       });
-      hideLoadMoreButton();
       return;
     }
+
+    if (page >= totalPages) {
+      hideLoadMoreButton();
+    } else {
+      showLoadMoreButton();
+    }
+    console.log(page, totalPages);
     createGallery(images.hits);
-    showLoadMoreButton();
   } catch (error) {
     iziToast.error({
       title: 'Error',
@@ -84,8 +92,7 @@ async function onClick() {
       });
     }
 
-    const lastPage = Math.ceil(images.totalHits / perPage);
-    if (page === lastPage) {
+    if (page === totalPages) {
       hideLoadMoreButton();
       iziToast.info({
         title: '',

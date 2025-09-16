@@ -58,9 +58,8 @@
   flex-wrap: wrap;
   gap: 24px;
   max-width: 1128px;
-  justify-content: center;
-  align-items: center;
   margin: 0 auto;
+  width: 100%;
 }
 
 .gallery-item {
